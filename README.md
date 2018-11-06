@@ -15,7 +15,8 @@ Go to the following direction: ./tfg-project and start the server
 python server.py 
 On the screen you must see a message like "Server is running at the following direction "http://IPaddress:port" and will also displayed 
 a code which is not interesting for this propourse.
-#WHAT TO DO IN CLIENT SIDE
+
+WHAT TO DO IN CLIENT SIDE
 Here you need open first your Jupyter notebook. If you system doesn´t have it, check how to install Jupyter notebook on you computer.
 
 MORE THINGS TO COMMENT HERE SOON!!!!!!
