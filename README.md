@@ -1,14 +1,15 @@
 # tfg-project
 This is the repo for the TFG made at University Carlos III of Madrid.
 
-#How to correctly set up the project:
+How to correctly set up the project:
 
 The clients side of the application was runned in WIndows 10 using Jupyter notebook.
 The server side of the aplication was runned in a raspberian VM with Python installed.
 First clone the repository in two OS, one with Linux program (server.py and directorios) and the other (clients) in windows 10 incorporated with Jupyter notebook. 
+
 git clone https://github.com/jorgediazgomez96/tfg-project
 
-#WHAT TO DO IN SERVER SIDE
+WHAT TO DO IN SERVER SIDE
 
 Go to the following direction: ./tfg-project and start the server
 python server.py 
