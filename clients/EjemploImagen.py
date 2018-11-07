@@ -18,10 +18,10 @@ import json
 py.init_notebook_mode(connected=True)
 
 
-# In[5]:
+# In[2]:
 
 
-Piserver = 'http://192.168.1.45:5000/'
+Piserver = 'http://192.168.1.50:5000/'
 
 #conection to root D-Filesystem
 dataService = pd.read_csv(Piserver)
@@ -54,17 +54,22 @@ def buscaUnaImagen(change):
         #Abre una pestaña y te muestra el archivo seleccionado
         py.iplot(table, filename='tablaArchivos.html')
         #Request para la direccion de la foto
-        response = requests.get(Piserver + 'download/image/{}'.format(w.value),stream=True)
-        filename = 'temporal.png'
+
+        response = requests.get(Piserver + 'download/images/{}'.format(w.value),stream=True)
+        #print(response)
+        filename = w.value
+
 
         #Te recorres todo lo que hay en la respuesta y lo escribes en el archivo abierto
         with open(filename, 'wb') as f:
             for chunk in response:
                 f.write(chunk)
-        img = Image.open('temporal.png')
-        img.show()
 
-options=['Foto','Buscar','Datos','Todo']
+        
+        img = Image.open(w.value)
+        img.show()
+        
+options=['Foto','Buscar','Datos','Todo']            
 
 w = widgets.Text(value='',description='Name download',disabled=False)
 opciones = widgets.SelectMultiple(options=list(options), value=('Todo', ),description='Type')

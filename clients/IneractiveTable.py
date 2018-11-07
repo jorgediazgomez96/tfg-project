@@ -11,15 +11,16 @@ import plotly.offline as py
 from plotly import figure_factory as ff
 import ipywidgets as widgets
 import plotly.graph_objs as go
+
 import json
 #Made for displays online aka. not buying the pay version
 py.init_notebook_mode(connected=True)
 
 
-# In[9]:
+# In[2]:
 
 
-Piserver = 'http://192.168.1.45:5000/'
+Piserver = 'http://192.168.1.50:5000/'
 #conection to root D-Filesystem
 #dataService = pd.read_csv('http://192.168.1.39:5000/')
 dataService = pd.read_csv(Piserver)
@@ -45,7 +46,7 @@ df = pd.read_csv('data.csv')
 print(df)
 
 
-# In[5]:
+# In[9]:
 
 
 def updateTabla(opciones):
@@ -54,7 +55,9 @@ def updateTabla(opciones):
             table =ff.create_table(df[df['direccion']=='{}/download/image/nameOfImage.extention'])
             py.iplot(table, filename='tablaArchivos')
         elif 'Datos' in opciones:
-            table = ff.create_table(df[df['direccion']== '{}/download/data/archiveName.extention'])
+
+            table = ff.create_table(df[df['direccion']== '{}/download/data/archiveName.extention'] )
+
             py.iplot(table,filename = 'tablaArchivos')
         elif 'Buscar' in opciones:
             display(w)
@@ -69,14 +72,16 @@ def buscaUnFichero(change):
         #Abre una pestaña y te muestra el archivo seleccionado
         py.iplot(table, filename='tablaArchivos.html')
         response = requests.get(Piserver+'download/data/{}'.format(w.value),stream=True)
-        filename = 'temporal.data'
+
+        filename = w.value
         with open(filename, 'wb') as f:
             f.write(response.text)
-        os.system('./{}'.format(w.value))
+        print("Se ha descargado el archivo " + w.value)
+        
+options=['Foto','Buscar','Datos','Todo']            
 
-options=['Foto','Buscar','Datos','Todo']
+w = widgets.Text(value='',description='Nombre del fichero',disabled=False)           
 
-w = widgets.Text(value='',description='Nombre del fichero',disabled=False)
 opciones = widgets.SelectMultiple(options=list(options), value=('Todo', ),description='Type')
 widgets.interactive(updateTabla,opciones=opciones)
 
@@ -107,5 +112,8 @@ with open(filename, 'wb') as f:
 
 
 os.remove('prueba.png')
-os.remove('tablaArchivos')
+
+os.remove('data.csv')
+#os.remove('tablaArchivos.html')
+
 
