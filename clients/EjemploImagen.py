@@ -29,17 +29,17 @@ tablaServicios = ff.create_table(dataService)
 py.iplot(tablaServicios, filename='tablaServicios')
 
 #Connecton to list archives
-data = pd.read_json(Piserver + 'archivos')
+data = pd.read_json(Piserver + 'files')
 data.to_csv('data.csv',index=False )
 df = pd.read_csv('data.csv')
 
 def updateTabla(opciones):
         
         if 'Foto' in opciones:
-            table =ff.create_table(df[df['direccion']== '{}/fotos/nombreFoto'])
+            table =ff.create_table(df[df['direccion']== '{}/download/image/nameOfImage.extention'])
             py.iplot(table, filename='tablaArchivos')
         elif 'Datos' in opciones:
-            table = ff.create_table(df[df['direccion']== '{}/datos/nombreArchivo'] )
+            table = ff.create_table(df[df['direccion']== '{}/download/data/archiveName.extention'] )
             py.iplot(table,filename = 'tablaArchivos')
         elif 'Buscar' in opciones:     
             display(w)      
@@ -52,25 +52,21 @@ def buscaUnaImagen(change):
     if w.value in df['archivos'].unique():
         table =ff.create_table(df[df['archivos']== w.value])
         #Abre una pestaña y te muestra el archivo seleccionado
-        py.iplot(table, filename='tablaArchivos.html') 
+        py.iplot(table, filename='tablaArchivos.html')
         #Request para la direccion de la foto
-        response = requests.get(Piserver + 'fotos/{}'.format(w.value),stream=True)
+        response = requests.get(Piserver + 'download/image/{}'.format(w.value),stream=True)
         filename = 'temporal.png'
 
         #Te recorres todo lo que hay en la respuesta y lo escribes en el archivo abierto
         with open(filename, 'wb') as f:
             for chunk in response:
                 f.write(chunk)
-        
         img = Image.open('temporal.png')
         img.show()
-        
 
-   
-    
-options=['Foto','Buscar','Datos','Todo']            
+options=['Foto','Buscar','Datos','Todo']
 
-w = widgets.Text(value='',description='Name download',disabled=False)           
+w = widgets.Text(value='',description='Name download',disabled=False)
 opciones = widgets.SelectMultiple(options=list(options), value=('Todo', ),description='Type')
 widgets.interactive(updateTabla,opciones=opciones)
 
@@ -88,7 +84,6 @@ widgets.interactive(updateTabla,opciones=opciones)
 #with open(filename, 'wb') as f:
  #   for chunk in response:
  #       f.write(chunk)
-        
 #img = Image.open('prueba.png')
 #img.show()
 
