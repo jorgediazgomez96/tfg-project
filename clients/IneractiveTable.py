@@ -55,21 +55,24 @@ def updateTabla(opciones):
             table =ff.create_table(df[df['direccion']=='{}/download/image/nameOfImage.extention'])
             py.iplot(table, filename='tablaArchivos')
         elif 'Datos' in opciones:
+
             table = ff.create_table(df[df['direccion']== '{}/download/data/archiveName.extention'] )
+
             py.iplot(table,filename = 'tablaArchivos')
-        elif 'Buscar' in opciones:     
-            display(w)      
+        elif 'Buscar' in opciones:
+            display(w)
             w.observe(buscaUnFichero,names='value')
         else:
             table = ff.create_table(df)
             py.iplot(table,filename = 'tablaArchivos')
 
-def buscaUnFichero(change):    
+def buscaUnFichero(change):
     if w.value in df['archivos'].unique():
         table =ff.create_table(df[df['archivos']== w.value])
         #Abre una pestaña y te muestra el archivo seleccionado
         py.iplot(table, filename='tablaArchivos.html')
         response = requests.get(Piserver+'download/data/{}'.format(w.value),stream=True)
+
         filename = w.value
         with open(filename, 'wb') as f:
             f.write(response.text)
@@ -78,9 +81,10 @@ def buscaUnFichero(change):
 options=['Foto','Buscar','Datos','Todo']            
 
 w = widgets.Text(value='',description='Nombre del fichero',disabled=False)           
+
 opciones = widgets.SelectMultiple(options=list(options), value=('Todo', ),description='Type')
-widgets.interactive(updateTabla,opciones=opciones)     
-       
+widgets.interactive(updateTabla,opciones=opciones)
+
 
 
 
@@ -108,6 +112,8 @@ with open(filename, 'wb') as f:
 
 
 os.remove('prueba.png')
+
 os.remove('data.csv')
 #os.remove('tablaArchivos.html')
+
 

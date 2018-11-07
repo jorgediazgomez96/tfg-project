@@ -52,23 +52,26 @@ def buscaUnaImagen(change):
     if w.value in df['archivos'].unique():
         table =ff.create_table(df[df['archivos']== w.value])
         #Abre una pestaña y te muestra el archivo seleccionado
-        py.iplot(table, filename='tablaArchivos.html') 
+        py.iplot(table, filename='tablaArchivos.html')
         #Request para la direccion de la foto
+
         response = requests.get(Piserver + 'download/images/{}'.format(w.value),stream=True)
         #print(response)
         filename = w.value
+
 
         #Te recorres todo lo que hay en la respuesta y lo escribes en el archivo abierto
         with open(filename, 'wb') as f:
             for chunk in response:
                 f.write(chunk)
+
         
         img = Image.open(w.value)
         img.show()
         
 options=['Foto','Buscar','Datos','Todo']            
 
-w = widgets.Text(value='',description='Name download',disabled=False)           
+w = widgets.Text(value='',description='Name download',disabled=False)
 opciones = widgets.SelectMultiple(options=list(options), value=('Todo', ),description='Type')
 widgets.interactive(updateTabla,opciones=opciones)
 
@@ -86,7 +89,6 @@ widgets.interactive(updateTabla,opciones=opciones)
 #with open(filename, 'wb') as f:
  #   for chunk in response:
  #       f.write(chunk)
-        
 #img = Image.open('prueba.png')
 #img.show()
 
