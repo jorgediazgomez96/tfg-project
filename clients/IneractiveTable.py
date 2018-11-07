@@ -33,7 +33,7 @@ py.iplot(tablaServicios, filename='tablaServicios')
 
 
 #Connecton to list archives
-data = pd.read_json(Piserver+'archivos')
+data = pd.read_json(Piserver+'files')
 data.to_csv('data.csv',index=False )
 
 
@@ -51,39 +51,35 @@ print(df)
 def updateTabla(opciones):
 
         if 'Foto' in opciones:
-            table =ff.create_table(df[df['direccion']=='{}/fotos/nombreFoto'])
+            table =ff.create_table(df[df['direccion']=='{}/download/image/nameOfImage.extention'])
             py.iplot(table, filename='tablaArchivos')
         elif 'Datos' in opciones:
-            table = ff.create_table(df[df['direccion']== '{}/datos/nombreArchivo'] )
+            table = ff.create_table(df[df['direccion']== '{}/download/data/archiveName.extention'])
             py.iplot(table,filename = 'tablaArchivos')
-        elif 'Buscar' in opciones:     
-            display(w)      
+        elif 'Buscar' in opciones:
+            display(w)
             w.observe(buscaUnFichero,names='value')
         else:
             table = ff.create_table(df)
             py.iplot(table,filename = 'tablaArchivos')
 
-def buscaUnFichero(change):    
+def buscaUnFichero(change):
     if w.value in df['archivos'].unique():
         table =ff.create_table(df[df['archivos']== w.value])
         #Abre una pestaña y te muestra el archivo seleccionado
         py.iplot(table, filename='tablaArchivos.html')
-        response = requests.get(Piserver+'datos/{}'.format(w.value),stream=True)
+        response = requests.get(Piserver+'download/data/{}'.format(w.value),stream=True)
         filename = 'temporal.data'
         with open(filename, 'wb') as f:
             f.write(response.text)
         os.system('./{}'.format(w.value))
-        
-options=['Foto','Buscar','Datos','Todo']            
 
+options=['Foto','Buscar','Datos','Todo']
 
-
-
-
-w = widgets.Text(value='',description='Nombre del fichero',disabled=False)           
+w = widgets.Text(value='',description='Nombre del fichero',disabled=False)
 opciones = widgets.SelectMultiple(options=list(options), value=('Todo', ),description='Type')
-widgets.interactive(updateTabla,opciones=opciones)     
-       
+widgets.interactive(updateTabla,opciones=opciones)
+
 
 
 
@@ -99,7 +95,7 @@ os.remove('data.csv')
 #Direccion general de la API
 API_URL = Piserver
 #Request para la direccion de la foto
-response = requests.get('{}fotos/anaconda.png'.format(API_URL),stream=True)
+response = requests.get('{}download/image/anaconda.png'.format(API_URL),stream=True)
 filename = 'prueba.png'
 
 with open(filename, 'wb') as f:
@@ -111,5 +107,5 @@ with open(filename, 'wb') as f:
 
 
 os.remove('prueba.png')
-#os.remove('tablaArchivos.html')
+os.remove('tablaArchivos')
 
