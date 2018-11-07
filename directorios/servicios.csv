@@ -1,7 +1,8 @@
-servicio,metodo,descripcion
-archivos, get,Lista archivos del sistema encontrarlos y descargarlos
-subirArchivos, post,Permite subir un archivo al servidor
-futbol, get,not yet implemented
+service,method,description
+files, get,List of files inside the server
+download,get,Download selected files 
+upload, post,Upload selected files
+football, get,not yet implemented
 
 
 
