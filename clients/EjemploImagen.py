@@ -18,10 +18,10 @@ import json
 py.init_notebook_mode(connected=True)
 
 
-# In[5]:
+# In[2]:
 
 
-Piserver = 'http://192.168.1.45:5000/'
+Piserver = 'http://192.168.1.50:5000/'
 
 #conection to root D-Filesystem
 dataService = pd.read_csv(Piserver)
@@ -29,17 +29,17 @@ tablaServicios = ff.create_table(dataService)
 py.iplot(tablaServicios, filename='tablaServicios')
 
 #Connecton to list archives
-data = pd.read_json(Piserver + 'archivos')
+data = pd.read_json(Piserver + 'files')
 data.to_csv('data.csv',index=False )
 df = pd.read_csv('data.csv')
 
 def updateTabla(opciones):
         
         if 'Foto' in opciones:
-            table =ff.create_table(df[df['direccion']== '{}/fotos/nombreFoto'])
+            table =ff.create_table(df[df['direccion']== '{}/download/image/nameOfImage.extention'])
             py.iplot(table, filename='tablaArchivos')
         elif 'Datos' in opciones:
-            table = ff.create_table(df[df['direccion']== '{}/datos/nombreArchivo'] )
+            table = ff.create_table(df[df['direccion']== '{}/download/data/archiveName.extention'] )
             py.iplot(table,filename = 'tablaArchivos')
         elif 'Buscar' in opciones:     
             display(w)      
@@ -54,20 +54,18 @@ def buscaUnaImagen(change):
         #Abre una pestaña y te muestra el archivo seleccionado
         py.iplot(table, filename='tablaArchivos.html') 
         #Request para la direccion de la foto
-        response = requests.get(Piserver + 'fotos/{}'.format(w.value),stream=True)
-        filename = 'temporal.png'
+        response = requests.get(Piserver + 'download/images/{}'.format(w.value),stream=True)
+        #print(response)
+        filename = w.value
 
         #Te recorres todo lo que hay en la respuesta y lo escribes en el archivo abierto
         with open(filename, 'wb') as f:
             for chunk in response:
                 f.write(chunk)
         
-        img = Image.open('temporal.png')
+        img = Image.open(w.value)
         img.show()
         
-
-   
-    
 options=['Foto','Buscar','Datos','Todo']            
 
 w = widgets.Text(value='',description='Name download',disabled=False)           
