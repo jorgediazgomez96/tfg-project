@@ -54,7 +54,7 @@ def buscaUnaImagen(change):
         #Abre una pestaña y te muestra el archivo seleccionado
         py.iplot(table, filename='tablaArchivos.html')
         #Request para la direccion de la foto
-        response = requests.get(Piserver + '/download/image/{}'.format(w.value),stream=True)
+        response = requests.get(Piserver + 'download/image/{}'.format(w.value),stream=True)
         filename = 'temporal.png'
 
         #Te recorres todo lo que hay en la respuesta y lo escribes en el archivo abierto
