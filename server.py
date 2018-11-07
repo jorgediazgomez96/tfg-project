@@ -26,17 +26,17 @@ def obtenerDatos():
 #Con esto se obtien un archivo de una ruta que especificas a partir de la
 #ruta por defecto UPLOAD_DIR
 
-@app.route('/datos/<path:path>')
+@app.route('/download/data/<path:path>')
 def obtenerDato(path):
 
 	return send_from_directory(DATA_DIR,path,as_attachment=True)
 
-@app.route('/fotos/<path:path>')
+@app.route('/download/images/<path:path>')
 def obtenerFoto(path):
 	return send_from_directory(FOTO_DIR,path,as_attachment=True)
 
 
-@app.route('/subir/datos/<filename>', methods=['POST'])
+@app.route('/upload/data/<filename>', methods=['POST'])
 def subidaDatos(filename):
 	if '/' in filename:
 		abort(400,'solo se admiten archivos')
@@ -48,7 +48,7 @@ def subidaDatos(filename):
 
 
 #Listar todos los archivos que hay en el sistema
-@app.route('/archivos')
+@app.route('/files')
 def obtenerJson():
 
 	files=[]
