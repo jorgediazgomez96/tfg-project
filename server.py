@@ -29,7 +29,7 @@ def obtenerDatos():
 def obtenerDato(path):
 	return send_from_directory(DATA_DIR,path,as_attachment=True)
 
-@app.route('/download/images/<path:path>')
+@app.route('/download/image/<path:path>')
 def obtenerFoto(path):
 	return send_from_directory(FOTO_DIR,path,as_attachment=True)
 
@@ -57,7 +57,7 @@ def obtenerJson():
 			tamanyo.append(st.st_size)
 			numero = os.path.getctime(path)
 			creacion.append(datetime.datetime.fromtimestamp(numero))
-			direccion.append('{}/download/data/archiveName.extention')
+			direccion.append('Image')
 	#luego las fotos
 	for fotoname in os.listdir(FOTO_DIR):
 		path = os.path.join(FOTO_DIR,fotoname)
@@ -67,9 +67,9 @@ def obtenerJson():
 			tamanyo.append(st.st_size)
 			numero = os.path.getctime(path)
 			creacion.append(datetime.datetime.fromtimestamp(numero))
-			direccion.append('{}/download/image/nameOfImage.extention');
+			direccion.append('Data');
 
-	return jsonify(archivos=files,tamanyo=tamanyo,creacion=creacion,direccion=direccion)
+	return jsonify(ArchiveName=files,Size=tamanyo,CreationDate=creacion,Type=direccion)
 
 app.run(host = direccionEquipo)
 
