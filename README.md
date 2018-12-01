@@ -18,8 +18,20 @@ a code which is not interesting for this propourse.
 
 WHAT TO DO IN CLIENT SIDE
 Here you need open first your Jupyter notebook. If you system doesn´t have it, check how to install Jupyter notebook on you computer.
+Another important thing is to make sure your system has the required libraries installed in order to make the project run without errors
 
-MORE THINGS TO COMMENT HERE SOON!!!!!!
+WHAT IF YOU WANT TO TRY ONLINE
 
+Well recently I created a domain in heliohost.org 
+They provided free domains to run small projects like mine.
 
+So if you want to change from local to online, you just follow the following steps:
+1-Open clients/newInteractiveTable.ipynb on your jupyternotebook.
+2-Modify the variable Piserver to http://filesystem.heliohost.org/flask
+3-Create a new variable, for example serviceServer and type the following address:
+http://filesystem.heliohost.org/flask/services
+4-Put the created variable at the line where you see: 
+pd.read_csv( ) so the new sentence would be pd.read_csv(serviceSerer)
+5-Execute normaly and if nothing strange happens it would work perfectly.
 
+NEW CONTENT WOULD COME SOON!!!
